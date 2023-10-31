@@ -17,34 +17,34 @@ resource "azurerm_network_interface" "vm-nic" {
   resource_group_name = azurerm_resource_group.vm-rg.name
 
   ip_configuration {
-    name                          = var.nic_ip_configuration_name
+    name                          = "internal"
     subnet_id                     = var.subnet_id
-    private_ip_address_allocation = var.nic_ip_configuration_private_IP
+    private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm-pip.id
   }
 }
 
 resource "azurerm_linux_virtual_machine" "vm-vm" {
-  name                            = "${var.base_name}-vm"
+  name                            = "${var.base_name}-vm-${var.workspace_suffix}"
   resource_group_name             = azurerm_resource_group.vm-rg.name
   location                        = var.location
-  size                            = var.VM_size
-  admin_username                  = tomap(jsondecode(data.azurerm_key_vault_secret.vm-secret.value)).username
-  admin_password                  = tomap(jsondecode(data.azurerm_key_vault_secret.vm-secret.value)).password
+  size                            = "Standard_F2"
+  admin_username                  = var.username
+  admin_password                  = var.password
   disable_password_authentication = false
   network_interface_ids = [
     azurerm_network_interface.vm-nic.id,
   ]
 
   os_disk {
-    caching              = var.OS_caching
-    storage_account_type = var.OS_StorageAccount_type
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
     publisher = "Canonical"
     offer     = "0001-com-ubuntu-server-focal"
-    sku       = var.source_image_sku
+    sku       = "22_04-lts"
     version   = "latest"
   }
 }

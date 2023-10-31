@@ -12,3 +12,18 @@ variable "location" {
     type = string
     description = "The location of where the azure resources will be deployed"
 }
+
+variable "subnet_id" {
+    type = string
+    description = "The subnet id where the VM will be deployed"
+}
+
+variable "username" {
+    type = string
+    description = "The username for the VM"
+}
+
+variable "password" {
+    type = string
+    description = "The password for the VM"
+}
