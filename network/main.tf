@@ -40,3 +40,7 @@ resource "azurerm_subnet_network_security_group_association" "ex" {
   subnet_id                 = azurerm_subnet.net-sn.id
   network_security_group_id = azurerm_network_security_group.net-nsg.id
 }
+
+output "subnet_id" {
+  value = azurerm_subnet.net-sn.id
+}
