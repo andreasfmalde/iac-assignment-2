@@ -22,3 +22,8 @@ variable "port" {
     type = string
     description = "The port to allow access to the VM"
 }
+
+variable "tags" {
+    type = map(string)
+    description = "The tags to be applied to all resources"
+}

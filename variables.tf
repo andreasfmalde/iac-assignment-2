@@ -44,3 +44,18 @@ variable "port" {
     type = string
     description = "The port to allow access to the VM"
 }
+
+variable "owner" {
+    type = string
+    description = "The owner of the infrastructure"
+}
+
+variable "company" {
+    type = string
+    description = "The company name"
+}
+
+variable "billing_department" {
+    type = string
+    description = "The billing department"
+}

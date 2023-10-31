@@ -3,6 +3,7 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "kv-rg" {
   name     = "${var.base_name}-rg-${var.workspace_suffix}"
   location = var.location
+  tags = var.tags
 }
 
 
@@ -31,6 +32,7 @@ resource "azurerm_key_vault" "kv-kv" {
     secret_permissions = ["Get","List","Set","Delete"]
     storage_permissions = ["Get","Set","Delete","List"]
   }
+  tags = var.tags
 }
 
 resource "azurerm_key_vault_secret" "kv_secret_vm_details" {

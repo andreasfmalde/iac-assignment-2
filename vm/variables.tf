@@ -27,3 +27,8 @@ variable "password" {
     type = string
     description = "The password for the VM"
 }
+
+variable "tags" {
+    type = map(string)
+    description = "The tags to be applied to all resources"
+}

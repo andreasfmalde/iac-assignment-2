@@ -1,5 +1,14 @@
 locals {
   workspace_suffix = workspace.name == "default" ? "" : "${workspace.name}"
+
+  common_tags = {
+    owner              = var.owner
+    project            = var.base_name
+    company            = var.company
+    billing_department = var.billing_department
+    configuration      = local.workspace_suffix
+
+  }
 }
 
 module "KeyVault" {
@@ -11,6 +20,7 @@ module "KeyVault" {
     kv_password_secret_name = var.kv_password_secret_name
     username = var.username
     password = var.password
+    tags = local.common_tags
 }
 
 module "Network" {
@@ -20,6 +30,7 @@ module "Network" {
     location = var.location
     source_IP = var.source_IP
     port = var.port
+    tags = local.common_tags
 }
 
 module "VirtualMachine" {
@@ -30,4 +41,5 @@ module "VirtualMachine" {
     subnet_id = module.Network.subnet_id
     username = var.username
     password = var.password
+    tags = local.common_tags
 }

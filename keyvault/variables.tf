@@ -33,3 +33,8 @@ variable "password" {
     description = "The password for the VM"
     sensitive = true
 }
+
+variable "tags" {
+    type = map(string)
+    description = "The tags to be applied to all resources"
+}

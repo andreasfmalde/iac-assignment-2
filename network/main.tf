@@ -1,6 +1,7 @@
 resource "azurerm_resource_group" "net-rg" {
     name = "${var.base_name}-rg-${var.workspace_suffix}"
     location = var.location
+    tags = var.tags
 }
 
 resource "azurerm_network_security_group" "net-nsg" {
@@ -19,6 +20,7 @@ resource "azurerm_network_security_group" "net-nsg" {
     source_address_prefix      = var.source_IP
     destination_address_prefix = "*"
   }
+  tags = var.tags
 }
 
 resource "azurerm_virtual_network" "net-vnet" {
@@ -27,6 +29,7 @@ resource "azurerm_virtual_network" "net-vnet" {
   resource_group_name = azurerm_resource_group.net-rg.name
   address_space       = ["10.0.0.0/16"]
   dns_servers         = ["10.0.0.4","10.0.0.5"]
+  tags = var.tags
 }
 
 resource "azurerm_subnet" "net-sn" {
