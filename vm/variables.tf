@@ -21,11 +21,13 @@ variable "subnet_id" {
 variable "username" {
     type = string
     description = "The username for the VM"
+    sensitive = true
 }
 
 variable "password" {
     type = string
     description = "The password for the VM"
+    sensitive = true
 }
 
 variable "tags" {

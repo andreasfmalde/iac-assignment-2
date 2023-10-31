@@ -21,6 +21,7 @@ variable "kv_username_secret_name" {
 variable "username" {
     type = string
     description = "The username for the VM"
+    sensitive = true
 }
 
 variable "kv_password_secret_name" {

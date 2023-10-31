@@ -16,6 +16,7 @@ variable "location" {
 variable "source_IP" {
     type = string
     description = "The source IP address to allow SSH access to the VM"
+    sensitive = true
 }
 
 variable "port" {
