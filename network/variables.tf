@@ -16,9 +16,15 @@ variable "location" {
 variable "source_IP" {
     type = string
     description = "The source IP address to allow SSH access to the VM"
+    sensitive = true
 }
 
 variable "port" {
     type = string
     description = "The port to allow access to the VM"
+}
+
+variable "tags" {
+    type = map(string)
+    description = "The tags to be applied to all resources"
 }

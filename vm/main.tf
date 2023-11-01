@@ -1,18 +1,20 @@
 resource "azurerm_resource_group" "vm-rg" {
-  name     = "${var.base_name}-rg-${var.workspace_suffix}"
+  name     = "${var.base_name}rg${var.workspace_suffix}"
   location = var.location
+  tags = var.tags
 }
 
 resource "azurerm_public_ip" "vm-pip" {
-  name                = "${var.base_name}-pip-${var.workspace_suffix}"
+  name                = "${var.base_name}pip${var.workspace_suffix}"
   resource_group_name = azurerm_resource_group.vm-rg.name
   location            = var.location
   allocation_method   = "Static"
+  tags = var.tags
 
 }
 
 resource "azurerm_network_interface" "vm-nic" {
-  name                = "${var.base_name}-nic-${var.workspace_suffix}"
+  name                = "${var.base_name}nic${var.workspace_suffix}"
   location            = var.location
   resource_group_name = azurerm_resource_group.vm-rg.name
 
@@ -22,10 +24,11 @@ resource "azurerm_network_interface" "vm-nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.vm-pip.id
   }
+  tags = var.tags
 }
 
 resource "azurerm_linux_virtual_machine" "vm-vm" {
-  name                            = "${var.base_name}-vm-${var.workspace_suffix}"
+  name                            = "${var.base_name}vm${var.workspace_suffix}"
   resource_group_name             = azurerm_resource_group.vm-rg.name
   location                        = var.location
   size                            = "Standard_F2"
@@ -43,10 +46,11 @@ resource "azurerm_linux_virtual_machine" "vm-vm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-focal"
+    offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts"
     version   = "latest"
   }
+  tags = var.tags
 }
 
 output "PublicIP" {
