@@ -40,7 +40,7 @@ jobs:
             - name: Terraform Plan
               if: github.event.inputs.action_type != 'destroy'
               id: plan
-              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -out=main.tfplan
+              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -var="network_acl_IP=${{secrets.NETWORK_ACL_BYPASS}}" -out=main.tfplan
               working-directory: ${{ env.WORKING_DIR }}
 
             - name: Terraform Apply
@@ -52,7 +52,7 @@ jobs:
             - name: Terraform Destroy
               if: github.event.inputs.action_type == 'destroy'
               id: destroy
-              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}"
+              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -var="network_acl_IP=${{secrets.NETWORK_ACL_BYPASS}}"
     stage:
         needs: dev
         runs-on: ubuntu-latest
@@ -73,7 +73,7 @@ jobs:
             - name: Terraform Plan
               if: github.event.inputs.action_type != 'destroy'
               id: plan
-              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -out=main.tfplan
+              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -var="network_acl_IP=${{secrets.NETWORK_ACL_BYPASS}}" -out=main.tfplan
               working-directory: ${{ env.WORKING_DIR }}
 
             - name: Terraform Apply
@@ -85,7 +85,7 @@ jobs:
             - name: Terraform Destroy
               if: github.event.inputs.action_type == 'destroy'
               id: destroy
-              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}"
+              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -var="network_acl_IP=${{secrets.NETWORK_ACL_BYPASS}}"
     prod:
         needs: stage
         runs-on: ubuntu-latest
@@ -108,7 +108,7 @@ jobs:
             - name: Terraform Plan
               if: github.event.inputs.action_type != 'destroy'
               id: plan
-              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -out=main.tfplan
+              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -var="network_acl_IP=${{secrets.NETWORK_ACL_BYPASS}}" -out=main.tfplan
               working-directory: ${{ env.WORKING_DIR }}
 
             - name: Terraform Apply
@@ -120,7 +120,7 @@ jobs:
             - name: Terraform Destroy
               if: github.event.inputs.action_type == 'destroy'
               id: destroy
-              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}"
+              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -var="network_acl_IP=${{secrets.NETWORK_ACL_BYPASS}}"
     
 
 
