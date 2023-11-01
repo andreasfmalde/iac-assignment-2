@@ -1,0 +1,46 @@
+name: Test And Validate
+
+on:
+    push:
+        branches-ignore:
+            - main
+        paths:
+            - './**.tf'
+
+jobs:
+    TestAndValidate:
+        runs-on: ubuntu-latest
+
+        name: 'Test and Validate'
+        env:
+            ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+            ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+            ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+            WORKING_DIR: .
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Init terraform
+              id: init
+              run: terraform init -backend=false
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform format
+              id: fmt
+              run: terraform fmt -check
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform validate
+              id: validate
+              run: terraform validate
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Tfsec
+              id: tfsec
+              uses: aquasecurity/tfsec-action@v1.0.0
+              with:
+                additional_args: --minimum-severity HIGH
+                working_directory: ${{ env.WORKING_DIR }}
+

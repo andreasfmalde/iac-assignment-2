@@ -1,0 +1,126 @@
+name: Terraform Deployment
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - './**.tf'
+    workflow_dispatch:
+        inputs:
+            action_type:
+                description: 'What should the action be? (apply/destroy)'
+                required: true
+                default: 'apply'
+
+env:
+    ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+    ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    WORKING_DIR: .
+
+jobs:
+    dev:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Select workspace
+              id: workspace
+              run: terraform workspace select dev || terraform workspace new dev
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Plan
+              if: github.event.inputs.action_type != 'destroy'
+              id: plan
+              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -out=main.tfplan
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Apply
+              if: github.event.inputs.action_type != 'destroy'
+              id: apply
+              run: terraform apply main.tfplan
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Destroy
+              if: github.event.inputs.action_type == 'destroy'
+              id: destroy
+              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}"
+    stage:
+        needs: dev
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Select workspace
+              id: workspace
+              run: terraform workspace select stage || terraform workspace new stage
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Plan
+              if: github.event.inputs.action_type != 'destroy'
+              id: plan
+              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -out=main.tfplan
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Apply
+              if: github.event.inputs.action_type != 'destroy'
+              id: apply
+              run: terraform apply main.tfplan
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Destroy
+              if: github.event.inputs.action_type == 'destroy'
+              id: destroy
+              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}"
+    prod:
+        needs: stage
+        runs-on: ubuntu-latest
+        environment:
+            name: production
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Select workspace
+              id: workspace
+              run: terraform workspace select prod || terraform workspace new prod
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Plan
+              if: github.event.inputs.action_type != 'destroy'
+              id: plan
+              run: terraform plan -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}" -out=main.tfplan
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Apply
+              if: github.event.inputs.action_type != 'destroy'
+              id: apply
+              run: terraform apply main.tfplan
+              working-directory: ${{ env.WORKING_DIR }}
+
+            - name: Terraform Destroy
+              if: github.event.inputs.action_type == 'destroy'
+              id: destroy
+              run: terraform destroy -auto-approve -var="username=${{secrets.VM_USERNAME}}" -var="password=${{secrets.VM_PASSWORD}}" -var="source_IP=${{secrets.SECURITY_RULE_IP}}"
+    
+
+
