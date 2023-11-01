@@ -32,6 +32,11 @@ resource "azurerm_key_vault" "kv-kv" {
     secret_permissions  = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
     storage_permissions = ["Get", "Set", "Delete", "List"]
   }
+  network_acls {
+    bypass         = "AzureServices"
+    default_action = "Deny"
+  }
+
   tags = var.tags
 }
 
