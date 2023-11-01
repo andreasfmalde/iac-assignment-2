@@ -47,7 +47,7 @@ jobs:
             - uses: terraform-linters/setup-tflint@v3
               name: Setup TFLint
               with:
-                tflint_version: v0.44.1
+                tflint_version: latest
 
             - name: Show version
               run: tflint --version
@@ -58,5 +58,5 @@ jobs:
                 GITHUB_TOKEN: ${{ github.token }}
 
             - name: Run TFLint
-              run: tflint -f compact
+              run: tflint .
 
