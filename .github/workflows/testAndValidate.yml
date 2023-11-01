@@ -44,3 +44,19 @@ jobs:
                 additional_args: --minimum-severity CRITICAL
                 working_directory: ${{ env.WORKING_DIR }}
 
+            - uses: terraform-linters/setup-tflint@v3
+              name: Setup TFLint
+              with:
+                tflint_version: v0.44.1
+
+            - name: Show version
+              run: tflint --version
+
+            - name: Init TFLint
+              run: tflint --init
+              env:
+                GITHUB_TOKEN: ${{ github.token }}
+
+            - name: Run TFLint
+              run: tflint -f compact
+
