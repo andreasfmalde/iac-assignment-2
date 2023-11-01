@@ -1,7 +1,7 @@
 variable "base_name" {
   type        = string
   description = "The base name of the infrastructure"
-  default     = "afmoperaterra"
+  default     = "afmoterra"
 }
 
 variable "location" {
@@ -13,13 +13,13 @@ variable "location" {
 variable "kv_username_secret_name" {
   type        = string
   description = "Name of the secret which will hold the username for the VM"
-  default     = "operaterra-vm-username"
+  default     = "oterra-vm-username"
 }
 
 variable "kv_password_secret_name" {
   type        = string
   description = "Name of the secret which will hold the password for the VM"
-  default     = "operaterra-vm-password"
+  default     = "oterra-vm-password"
 }
 
 variable "username" {
