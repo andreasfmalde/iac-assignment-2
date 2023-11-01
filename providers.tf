@@ -1,6 +1,6 @@
 # Terrafrom provider configuration
 terraform {
-  required_version = ">= 1.5"  # Minimum required version of Terraform
+  required_version = ">= 1.5" # Minimum required version of Terraform
   required_providers {
     azurerm = { # Azure provider
       source  = "hashicorp/azurerm"
@@ -13,9 +13,9 @@ terraform {
   }
   # Backend configuration to store the Terraform state file in Azure Storage
   backend "azurerm" {
-    resource_group_name  = "afmbackend-rg" # Resource group name of the backend storage
-    storage_account_name = "afmbackendsam7q5ab" # Name of the backend storage account
-    container_name       = "tfstate"  # Name of the container to store the Terraform state file
+    resource_group_name  = "afmbackend-rg"       # Resource group name of the backend storage
+    storage_account_name = "afmbackendsam7q5ab"  # Name of the backend storage account
+    container_name       = "tfstate"             # Name of the container to store the Terraform state file
     key                  = "assignment2.tfstate" # The name of the Terraform state file to hold the state
   }
 }
