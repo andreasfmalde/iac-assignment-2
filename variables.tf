@@ -1,7 +1,7 @@
 variable "base_name" {
     type = string
     description = "The base name of the infrastructure"
-    default = "operaterra"
+    default = "afmoperaterra"
 }
 
 variable "location" {

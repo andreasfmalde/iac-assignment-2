@@ -1,7 +1,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "kv-rg" {
-  name     = "${var.base_name}-rg-${var.workspace_suffix}"
+  name     = "${var.base_name}rg${var.workspace_suffix}"
   location = var.location
   tags = var.tags
 }
@@ -28,20 +28,20 @@ resource "azurerm_key_vault" "kv-kv" {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
 
-    key_permissions = ["Get","List","Create","Delete"]
-    secret_permissions = ["Get","List","Set","Delete"]
+    key_permissions = ["Get","List","Create","Delete","Purge","Recover"]
+    secret_permissions = ["Get","List","Set","Delete","Purge","Recover"]
     storage_permissions = ["Get","Set","Delete","List"]
   }
   tags = var.tags
 }
 
-resource "azurerm_key_vault_secret" "kv_secret_vm_details" {
+resource "azurerm_key_vault_secret" "kv_secret_vm_username" {
   name         = var.kv_username_secret_name
   value        = var.username
   key_vault_id = azurerm_key_vault.kv-kv.id
 }
 
-resource "azurerm_key_vault_secret" "kv_secret_sa_access" {
+resource "azurerm_key_vault_secret" "kv_secret_vm_password" {
   name         = var.kv_password_secret_name
   value        = var.password
   key_vault_id = azurerm_key_vault.kv-kv.id

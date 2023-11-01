@@ -1,5 +1,5 @@
 locals {
-  workspace_suffix = workspace.name == "default" ? "" : "${workspace.name}"
+  workspace_suffix = terraform.workspace == "default" ? "" : "${terraform.workspace}"
 
   common_tags = {
     owner              = var.owner
