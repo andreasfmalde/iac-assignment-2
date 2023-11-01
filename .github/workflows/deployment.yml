@@ -5,7 +5,7 @@ on:
         branches:
             - main
         paths:
-            - './**.tf'
+            - '**.tf'
     workflow_dispatch:
         inputs:
             action_type:
