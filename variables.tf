@@ -10,18 +10,6 @@ variable "location" {
   default     = "West Europe"
 }
 
-variable "kv_username_secret_name" {
-  type        = string
-  description = "Name of the secret which will hold the username for the VM"
-  default     = "oterra-vm-username"
-}
-
-variable "kv_password_secret_name" {
-  type        = string
-  description = "Name of the secret which will hold the password for the VM"
-  default     = "oterra-vm-password"
-}
-
 variable "username" {
   type        = string
   description = "The username for the VM"
@@ -62,9 +50,4 @@ variable "billing_department" {
   type        = string
   description = "The billing department"
   default     = "IT"
-}
-
-variable "network_acl_IP" {
-  type        = string
-  description = "The IP address to allow to contact keyvault"
 }

@@ -11,23 +11,10 @@ locals {
   }
 }
 
-module "KeyVault" {
-  source                  = "./keyvault"
-  workspace_suffix        = local.workspace_suffix
-  base_name               = "${var.base_name}vault"
-  location                = var.location
-  kv_username_secret_name = var.kv_username_secret_name
-  kv_password_secret_name = var.kv_password_secret_name
-  username                = var.username
-  password                = var.password
-  tags                    = local.common_tags
-  network_acl_IP          = var.network_acl_IP
-}
-
 module "Network" {
   source           = "./network"
   workspace_suffix = local.workspace_suffix
-  base_name        = "${var.base_name}network"
+  base_name        = "${var.base_name}net"
   location         = var.location
   source_IP        = var.source_IP
   port             = var.port
