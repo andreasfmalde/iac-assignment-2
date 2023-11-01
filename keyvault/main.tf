@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "kv-rg" {
 
 
 resource "random_string" "random" {
-  length  = 4
+  length  = 5
   special = false
   upper   = false
 }
