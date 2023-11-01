@@ -1,9 +1,10 @@
+# Resource group to hold the VM resources
 resource "azurerm_resource_group" "vm-rg" {
   name     = "${var.base_name}rg${var.workspace_suffix}"
   location = var.location
   tags     = var.tags
 }
-
+# Public IP to be used by the VM
 resource "azurerm_public_ip" "vm-pip" {
   name                = "${var.base_name}pip${var.workspace_suffix}"
   resource_group_name = azurerm_resource_group.vm-rg.name
@@ -12,7 +13,7 @@ resource "azurerm_public_ip" "vm-pip" {
   tags                = var.tags
 
 }
-
+# Network interface card to be used to connect the VM to the network
 resource "azurerm_network_interface" "vm-nic" {
   name                = "${var.base_name}nic${var.workspace_suffix}"
   location            = var.location
@@ -26,7 +27,7 @@ resource "azurerm_network_interface" "vm-nic" {
   }
   tags = var.tags
 }
-
+# Linux virtual machine to be provisioned
 resource "azurerm_linux_virtual_machine" "vm-vm" {
   name                            = "${var.base_name}vm${var.workspace_suffix}"
   resource_group_name             = azurerm_resource_group.vm-rg.name
@@ -52,7 +53,7 @@ resource "azurerm_linux_virtual_machine" "vm-vm" {
   }
   tags = var.tags
 }
-
+# Output the public IP address of the VM
 output "PublicIP" {
   value = azurerm_public_ip.vm-pip.ip_address
 }
