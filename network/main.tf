@@ -11,7 +11,7 @@ resource "azurerm_network_security_group" "net-nsg" {
 
   security_rule {
     name                       = "${var.base_name}nsgsecrule${var.workspace_suffix}"
-    priority                   = 101
+    priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
