@@ -3,14 +3,14 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "kv-rg" {
   name     = "${var.base_name}rg${var.workspace_suffix}"
   location = var.location
-  tags = var.tags
+  tags     = var.tags
 }
 
 
 resource "random_string" "random" {
-  length = 4
+  length  = 4
   special = false
-  upper = false
+  upper   = false
 }
 
 resource "azurerm_key_vault" "kv-kv" {
@@ -28,9 +28,9 @@ resource "azurerm_key_vault" "kv-kv" {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
 
-    key_permissions = ["Get","List","Create","Delete","Purge","Recover"]
-    secret_permissions = ["Get","List","Set","Delete","Purge","Recover"]
-    storage_permissions = ["Get","Set","Delete","List"]
+    key_permissions     = ["Get", "List", "Create", "Delete", "Purge", "Recover"]
+    secret_permissions  = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
+    storage_permissions = ["Get", "Set", "Delete", "List"]
   }
   tags = var.tags
 }
