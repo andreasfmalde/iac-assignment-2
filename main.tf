@@ -21,6 +21,7 @@ module "KeyVault" {
   username                = var.username
   password                = var.password
   tags                    = local.common_tags
+  network_acl_IP          = var.network_acl_IP
 }
 
 module "Network" {

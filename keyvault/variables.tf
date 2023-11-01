@@ -39,3 +39,8 @@ variable "tags" {
   type        = map(string)
   description = "The tags to be applied to all resources"
 }
+
+variable "network_acl_IP" {
+  type        = string
+  description = "The IP address to allow to contact keyvault"
+}
