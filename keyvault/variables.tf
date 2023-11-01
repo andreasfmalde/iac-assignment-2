@@ -1,6 +1,6 @@
 variable "workspace_suffix" {
   type        = string
-  description = "Value which will hold the suffix for the workspace name"
+  description = "Value which will hold the suffix for the workspace name."
 }
 
 variable "base_name" {
