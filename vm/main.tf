@@ -41,7 +41,7 @@ resource "azurerm_linux_virtual_machine" "vm-vm" {
   ]
 
   os_disk {
-   caching              = "ReadWrite"
+    caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
@@ -51,7 +51,7 @@ resource "azurerm_linux_virtual_machine" "vm-vm" {
     sku       = "22_04-lts"
     version   = "latest"
   }
-        tags = var.tags
+  tags = var.tags
 }
 # Output the public IP address of the VM
 output "PublicIP" {
