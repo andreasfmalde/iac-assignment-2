@@ -17,8 +17,8 @@ resource "azurerm_network_security_group" "net-nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = var.port # Port to allow access to
-    source_address_prefix      = "*"      # IP address to allow access from
+    destination_port_range     = var.port      # Port to allow access to
+    source_address_prefix      = var.source_IP # IP address to allow access from
     destination_address_prefix = "*"
   }
   tags = var.tags
