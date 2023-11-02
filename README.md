@@ -104,3 +104,46 @@ To run this project one needs the following prerequisites and dependencies:
 ## Images of deployment
 This section will show some images of the deployment of the infrastructure to Azure. The images are taken from the terminal, the Azure portal and github.
 
+### Terraform test and validate workflow
+Pushing changes in any terraform file to a branch other than main will result in a terraform test and validate workflow to run. 
+#### Terraform fmt fail
+The first results from the test shows fail in formatting.
+![testandvalidate fmt fail](images/fmtFail.png)
+#### Terraform fmt
+Running the terraform fmt command fixes the formatting issues.
+![testandvalidate fmt fix](images/fmtCommand.png)
+#### Terraform security test fail - tfsec
+Pushing the new changes to the same branch make another testandvalidate workflow run. This time the test fails on security issues.
+![testandvalidate security fail](images/tfsecFail.png)
+The message is as follows.
+![testandvalidate security fail message](images/tfsecMessage.png)
+#### Fixing the tfsec fail
+To fix the security issue, one can change the security rule to only allow traffic from a specific IP.
+![testandvalidate security fix](images/tfsecFix.png)
+#### Test and validate succeed
+Fixing these issues makes the testandvalidate workflow succeed.
+![testandvalidate succeed](images/testComplete.png)
+
+### Terraform deployment workflow
+We can now merge create a pull request to merge the branch with the main branch. This will trigger the deployment workflow.
+#### Pull request
+The pull request is as follows.
+![pull request](images/pullRequest.png)
+#### Waiting for production review
+The deployment workflow successfully deploys dev and stage environments, and is now waiting for a review before deploying to production.
+![waiting for production review](images/productionReview.png)
+#### Successful deployment
+All environments are now successfully deployed.
+![successful deployment](images/deployComplete.png)
+#### Azure portal
+Going to the Azure portal we can see the resources that have been deployed. Both resourcegroups are delployed for the dev, stage and prod environment.
+![azure portal](images/resourceGroups.png)
+Going into the virtual machine resource of the prod environment, one can see that the configuration tag is prod as well as the name og the machine contains the word prod.
+![azure portal](images/productionTag.png)
+#### Terraform destroy
+To destroy the infrastructure, we can use the same deplpoyment workflow but we can manually use the workflow_dispatch event to trigger the workflow with "destroy" as keyword. 
+This will destroy the infrastructure in all environments.
+![destroy](images/startDestroy.png)
+#### Successful destroy of infrastructure
+The infrastructure is now successfully destroyed.
+![destroy](images/destroyComplete.png)
