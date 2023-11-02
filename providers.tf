@@ -6,8 +6,8 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.74.0"
     }
-    random = { # Random string provider
-      source  = "hashicorp/random"
+      random = { # Random string provider
+    source  = "hashicorp/random"
       version = "3.5.1"
     }
   }

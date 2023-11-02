@@ -18,7 +18,7 @@ resource "azurerm_network_security_group" "net-nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = var.port      # Port to allow access to
-    source_address_prefix      = var.source_IP # IP address to allow access from
+    source_address_prefix      = "*" # IP address to allow access from
     destination_address_prefix = "*"
   }
   tags = var.tags
@@ -28,7 +28,7 @@ resource "azurerm_virtual_network" "net-vnet" {
   name                = "${var.base_name}vnet${var.workspace_suffix}"
   location            = var.location
   resource_group_name = azurerm_resource_group.net-rg.name
-  address_space       = ["10.0.0.0/16"]
+  address_space   = ["10.0.0.0/16"]
   dns_servers         = ["10.0.0.4", "10.0.0.5"]
   tags                = var.tags
 }
@@ -36,7 +36,7 @@ resource "azurerm_virtual_network" "net-vnet" {
 resource "azurerm_subnet" "net-sn" {
   name                 = "${var.base_name}sn${var.workspace_suffix}"
   resource_group_name  = azurerm_resource_group.net-rg.name
-  virtual_network_name = azurerm_virtual_network.net-vnet.name
+   virtual_network_name = azurerm_virtual_network.net-vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 # Assosiate the network security group with the subnet
